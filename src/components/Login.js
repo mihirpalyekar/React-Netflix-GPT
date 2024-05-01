@@ -47,18 +47,18 @@ const Login = () => {
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(addUser({ uid, email, displayName, photoURL }));
-              navigate("/browse");
-              console.log(user);
             })
             .catch(() => {
               navigate("/error");
             });
         }
+        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrorMessage((currState) => errorCode + "-" + errorMessage);
+        navigate("/error");
       });
   };
 
