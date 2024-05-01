@@ -1,13 +1,23 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
-import {checkValidData} from '../utils/validate'
-
+import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "./../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage,setErrorMessage] = useState(null);
-  const name = useRef(null)
+  const [errorMessage, setErrorMessage] = useState(null);
+  const name = useRef(null);
   const email = useRef(null);
-  const password = useRef(null)
+  const password = useRef(null);
   const toggleSignUpForm = () => {
     setIsSignInForm(!isSignInForm);
   };
@@ -19,8 +29,38 @@ const Login = () => {
       password?.current?.value,
       !isSignInForm ? name.current.value : null
     );
-    setErrorMessage(currState => message)
-  }
+    setErrorMessage((currState) => message);
+    if (message) return;
+    const actionFunction = !isSignInForm
+      ? createUserWithEmailAndPassword
+      : signInWithEmailAndPassword;
+
+    actionFunction(auth, email?.current?.value, password?.current?.value)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        if (!isSignInForm) {
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL:
+              "https://avatars.githubusercontent.com/u/25129668?s=400&v=4",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(addUser({ uid, email, displayName, photoURL }));
+              navigate("/browse");
+              console.log(user);
+            })
+            .catch(() => {
+              navigate("/error");
+            });
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage((currState) => errorCode + "-" + errorMessage);
+      });
+  };
 
   return (
     <div className="h-[100%] overflow-hidden">
