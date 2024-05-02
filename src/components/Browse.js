@@ -9,8 +9,11 @@ import {
   addTopRatedMovies,
   addUpcomingMovies,
 } from "../utils/moviesSlice";
+import GptSearch from "./GptSearch";
+import { useSelector } from "react-redux";
 
 const Browse = () => {
+  const showGptSearch = useSelector(store => store.gpt.showGptSearch)
   useFetchMovies("now_playing", addNowPlayingMovies);
   useFetchMovies("popular", addPopularMovies);
   useFetchMovies("top_rated", addTopRatedMovies);
@@ -18,8 +21,14 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      <MainContainer />
-      <SecondaryContainer />
+      {showGptSearch ? (
+        <GptSearch />
+      ) : (
+        <>
+          <MainContainer />
+          <SecondaryContainer />
+        </>
+      )}
     </div>
   );
 };
