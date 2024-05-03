@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { API_OPTIONS, GET_MOVIES } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const useFetchMovies = (movieCategory, storeFunction) => {
+const useFetchMovies = (movieCategory, storeFunction, storeKey) => {
   const dispatch = useDispatch();
+  const movieData = useSelector((store) => store.movies[storeKey]);
   const getNowPlayingMovies = async () => {
     const data = await fetch(
       GET_MOVIES + movieCategory + "?page=1",
@@ -15,7 +16,7 @@ const useFetchMovies = (movieCategory, storeFunction) => {
   };
 
   useEffect(() => {
-    getNowPlayingMovies();
+    !movieData && getNowPlayingMovies();
   }, []);
 };
 

@@ -14,10 +14,10 @@ import { useSelector } from "react-redux";
 
 const Browse = () => {
   const showGptSearch = useSelector(store => store.gpt.showGptSearch)
-  useFetchMovies("now_playing", addNowPlayingMovies);
-  useFetchMovies("popular", addPopularMovies);
-  useFetchMovies("top_rated", addTopRatedMovies);
-  useFetchMovies("upcoming", addUpcomingMovies);
+  useFetchMovies("now_playing", addNowPlayingMovies, "nowPlaying");
+  useFetchMovies("popular", addPopularMovies, "popular");
+  useFetchMovies("top_rated", addTopRatedMovies, "topRated");
+  useFetchMovies("upcoming", addUpcomingMovies, "upcoming");
   return (
     <div>
       <Header />
