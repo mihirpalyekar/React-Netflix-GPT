@@ -41,17 +41,17 @@ const Header = () => {
     dispatch(toggleGptSearchView());
   };
 
-  const handleLanguageChange = (e)=> {
+  const handleLanguageChange = (e) => {
     dispatch(changeLanguage(e.target.value));
-  }
+  };
   return (
-    <div className="absolute w-screen flex justify-between px-8 py-2 bg-gradient-to-b from-black z-10">
-      <img className="w-48" src={LOGO} alt="Logo" />
+    <div className="absolute w-screen flex md:justify-between px-8 py-2 bg-gradient-to-b from-black z-10 flex-col md:flex-row justify-center">
+      <img className="w-48 mx-auto md:mx-0" src={LOGO} alt="Logo" />
       {user && (
-        <div className="flex text-center p-2">
+        <div className="flex justify-between text-center md:p-2 gap-5">
           {showGptSearch && (
             <select
-              className="px-4 mx-4 py-3 bg-gray-500 text-white rounded-lg cursor-pointer h-min"
+              className="px-4 text-sm md:text-lg  md:mx-4 py-3 bg-gray-500 text-white rounded-lg cursor-pointer h-auto md:h-min"
               onChange={handleLanguageChange}
             >
               {SUPPORTED_LANGUAGES.map((option) => (
@@ -62,14 +62,21 @@ const Header = () => {
             </select>
           )}
           <button
-            className="px-4 mx-4 py-3 bg-purple-800 text-white rounded-lg cursor-pointer h-min"
+            className="px-4 md:mx-4 py-3 text-sm md:text-lg  bg-purple-800 text-white rounded-lg cursor-pointer h-min"
             onClick={handleGPTSearchClick}
           >
             {showGptSearch ? "Home Page" : "GPT Search"}
           </button>
-          <img className="w-12 h-12" src={user?.photoURL} alt="userIcon" />
-          <button onClick={handleSignOut} className="font-bold text-white">
-            (Sign out)
+          <img
+            className="hidden md:block  w-12 h-12"
+            src={user?.photoURL}
+            alt="userIcon"
+          />
+          <button
+            onClick={handleSignOut}
+            className="font-bold text-sm md:text-lg  text-white px-4 md:mx-4 py-3 bg-red-800 rounded-lg cursor-pointer h-min"
+          >
+            Sign out
           </button>
         </div>
       )}

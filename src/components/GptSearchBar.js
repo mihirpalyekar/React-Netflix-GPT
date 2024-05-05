@@ -54,9 +54,9 @@ const GptSearchBar = () => {
     dispatch(addOpenAIKey(openaikeyInput.current.value));
   }
   return (
-    <div className="p-[20%] ">
+    <div className="pt-[40%] md:p-[20%] ">
       <form
-        className="bg-black"
+        className="bg-black m-2"
         onSubmit={(e) => {
           e.preventDefault();
         }}

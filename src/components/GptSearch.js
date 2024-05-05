@@ -7,14 +7,12 @@ const GptSearch = () => {
   return (
     <div>
       <div>
-        <img
-          className="w-full fixed -z-10"
-          src={BACKGROUND}
-          alt="background"
-        />
+        <img className="w-full fixed -z-10 h-screen object-cover" src={BACKGROUND} alt="background" />
       </div>
-      <GptSearchBar />
-      <GptMovieSuggestions />
+      <div className=''>
+        <GptSearchBar />
+        <GptMovieSuggestions />
+      </div>
     </div>
   );
 }
